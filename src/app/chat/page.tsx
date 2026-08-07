@@ -91,9 +91,9 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] -m-4 md:-m-8 overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-2rem)] md:h-[calc(100vh-4rem)] -m-4 md:-m-8 overflow-hidden">
       {/* Session Header */}
-      <div className="bg-[#12121a] border-b border-[#1e1e2e] px-4 py-3 flex items-center gap-4">
+      <div className="bg-[#12121a] border-b border-[#1e1e2e] px-4 py-3 flex items-center gap-4 flex-shrink-0">
         <div className="relative">
           <select
             value={selectedSession}
@@ -117,14 +117,14 @@ export default function ChatPage() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-4 min-h-0">
         {messages.map((msg) => (
           <div
             key={msg.id}
             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-[80%] md:max-w-[70%] rounded-2xl px-4 py-3 ${
+              className={`max-w-[80%] md:max-w-[70%] rounded-2xl px-4 py-3 overflow-hidden ${
                 msg.role === "user"
                   ? "bg-[#6c5ce7] text-white rounded-br-md"
                   : "bg-[#12121a] border border-[#1e1e2e] text-[#e4e4e7] rounded-bl-md"
@@ -135,8 +135,8 @@ export default function ChatPage() {
                   {msg.content.split("```").map((part, i) => {
                     if (i % 2 === 1) {
                       return (
-                        <pre key={i} className="bg-[#0a0a0f] rounded-lg p-3 my-2 overflow-x-auto">
-                          <code className="text-xs text-[#e4e4e7]">{part}</code>
+                        <pre key={i} className="bg-[#0a0a0f] rounded-lg p-3 my-2 overflow-x-auto max-w-full">
+                          <code className="text-xs text-[#e4e4e7] break-words whitespace-pre-wrap">{part}</code>
                         </pre>
                       );
                     }
@@ -207,7 +207,7 @@ export default function ChatPage() {
       </div>
 
       {/* Input Bar */}
-      <div className="bg-[#12121a] border-t border-[#1e1e2e] px-4 py-3">
+      <div className="bg-[#12121a] border-t border-[#1e1e2e] px-4 py-3 flex-shrink-0">
         <div className="flex items-center gap-3">
           <button className="p-2 text-[#71717a] hover:text-[#e4e4e7] transition-colors rounded-lg hover:bg-[#1a1a25]">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
