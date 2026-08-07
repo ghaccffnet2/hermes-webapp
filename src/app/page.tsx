@@ -1,27 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { MessageSquare, Clock, BarChart3, Activity, CheckCircle2, MessageCircle, AlertTriangle } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { MessageSquare, Clock, BarChart3, Activity, CheckCircle2, MessageCircle, AlertTriangle, Send, Terminal, Upload } from "lucide-react";
 
 const stats = [
-  { label: "Active Sessions", value: "3", icon: <MessageSquare size={24} />, color: "#6c5ce7" },
-  { label: "Cron Jobs", value: "2 active", icon: <Clock size={24} />, color: "#22c55e" },
-  { label: "API Calls Today", value: "147", icon: <BarChart3 size={24} />, color: "#f59e0b" },
-  { label: "Uptime", value: "99.8%", icon: <Activity size={24} />, color: "#22c55e" },
+  { label: "Active Sessions", value: "3", icon: MessageSquare, color: "text-primary" },
+  { label: "Cron Jobs", value: "2 active", icon: Clock, color: "text-green-500" },
+  { label: "API Calls Today", value: "147", icon: BarChart3, color: "text-yellow-500" },
+  { label: "Uptime", value: "99.8%", icon: Activity, color: "text-green-500" },
 ];
 
 const activity = [
-  { text: "Cron job \"hermes-daily-backup\" completed successfully", time: "3 hours ago", type: "success" },
-  { text: "New session started: Telegram WebApp Dashboard", time: "4 hours ago", type: "info" },
-  { text: "Service Gmail reconnected after timeout", time: "5 hours ago", type: "warning" },
-  { text: "User Muhammad Farzaneh updated settings", time: "8 hours ago", type: "info" },
-  { text: "Backup created: hermes-backup-2026-08-07.tar.gz", time: "12 hours ago", type: "success" },
+  { text: 'Cron job "hermes-daily-backup" completed successfully', time: "3 hours ago", type: "success" as const },
+  { text: "New session started: Telegram WebApp Dashboard", time: "4 hours ago", type: "info" as const },
+  { text: "Service Gmail reconnected after timeout", time: "5 hours ago", type: "warning" as const },
+  { text: "User Muhammad Farzaneh updated settings", time: "8 hours ago", type: "info" as const },
+  { text: "Backup created: hermes-backup-2026-08-07.tar.gz", time: "12 hours ago", type: "success" as const },
 ];
 
 const activityIcons: Record<string, React.ReactNode> = {
-  success: <CheckCircle2 size={14} className="text-[#22c55e]" />,
-  info: <MessageCircle size={14} className="text-[#6c5ce7]" />,
-  warning: <AlertTriangle size={14} className="text-[#f59e0b]" />,
+  success: <CheckCircle2 size={14} className="text-green-500" />,
+  info: <MessageCircle size={14} className="text-primary" />,
+  warning: <AlertTriangle size={14} className="text-yellow-500" />,
+};
+
+const activityBadgeVariant: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
+  success: "default",
+  info: "secondary",
+  warning: "outline",
 };
 
 export default function DashboardPage() {
@@ -36,79 +46,76 @@ export default function DashboardPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#e4e4e7]">Dashboard</h1>
-        <p className="text-[#71717a] mt-1">Overview of your Hermes AI agent</p>
+        <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+        <p className="text-muted-foreground mt-1">Overview of your Hermes AI agent</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.label}
-            className="bg-[#12121a] border border-[#1e1e2e] rounded-xl p-5 hover:bg-[#1a1a25] transition-all duration-200 group"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-[#e4e4e7]">{stat.icon}</span>
-              <div
-                className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{ backgroundColor: stat.color }}
-              />
-            </div>
-            <p className="text-2xl font-bold text-[#e4e4e7]">{stat.value}</p>
-            <p className="text-sm text-[#71717a] mt-1">{stat.label}</p>
-          </div>
-        ))}
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <Card key={stat.label} className="hover:bg-accent/50 transition-colors">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <Icon className={`h-6 w-6 ${stat.color}`} />
+                </div>
+                <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-[#12121a] border border-[#1e1e2e] rounded-xl">
-        <div className="px-6 py-4 border-b border-[#1e1e2e]">
-          <h2 className="text-lg font-semibold text-[#e4e4e7]">Recent Activity</h2>
-        </div>
-        <div className="divide-y divide-[#1e1e2e]">
-          {activity.map((item, i) => (
-            <div
-              key={i}
-              className="px-6 py-4 flex items-center gap-4 hover:bg-[#1a1a25] transition-colors"
-            >
-              <span className="flex-shrink-0">{activityIcons[item.type]}</span>
-              <p className="flex-1 text-sm text-[#e4e4e7]">{item.text}</p>
-              <span className="text-xs text-[#71717a] whitespace-nowrap">{item.time}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Activity</CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="divide-y divide-border">
+            {activity.map((item, i) => (
+              <div
+                key={i}
+                className="px-6 py-4 flex items-center gap-4 hover:bg-accent/50 transition-colors"
+              >
+                <span className="flex-shrink-0">{activityIcons[item.type]}</span>
+                <p className="flex-1 text-sm text-foreground">{item.text}</p>
+                <Badge variant={activityBadgeVariant[item.type]} className="text-xs whitespace-nowrap">
+                  {item.time}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-lg font-semibold text-[#e4e4e7] mb-4">Quick Actions</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-4">Quick Actions</h2>
         <div className="flex flex-wrap gap-3">
-          <button className="px-5 py-2.5 bg-[#6c5ce7] hover:bg-[#7c6cf7] text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
+          <Button className="gap-2">
+            <Send className="h-4 w-4" />
             Send Message
-          </button>
-          <button className="px-5 py-2.5 bg-[#12121a] border border-[#1e1e2e] hover:bg-[#1a1a25] text-[#e4e4e7] text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
+          </Button>
+          <Button variant="outline" className="gap-2">
+            <Terminal className="h-4 w-4" />
             Run Command
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
             onClick={handleBackup}
             disabled={backupLoading}
-            className="px-5 py-2.5 bg-[#12121a] border border-[#1e1e2e] hover:bg-[#1a1a25] text-[#e4e4e7] text-sm font-medium rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50"
+            className="gap-2"
           >
             {backupLoading ? (
-              <div className="w-4 h-4 border-2 border-[#6c5ce7] border-t-transparent rounded-full spin-slow" />
+              <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
             ) : (
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-              </svg>
+              <Upload className="h-4 w-4" />
             )}
             {backupLoading ? "Backing up..." : "Backup Now"}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

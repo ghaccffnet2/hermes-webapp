@@ -1,6 +1,19 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Send, Paperclip, ArrowUp } from "lucide-react";
 
 interface Message {
   id: number;
@@ -26,7 +39,8 @@ const initialMessages: Message[] = [
   {
     id: 2,
     role: "assistant",
-    content: "I'll help you build a complete Telegram WebApp dashboard! Let me create the project structure with Next.js, Tailwind CSS, and all the necessary components.\n\nHere's what I'll set up:\n\n1. **Project structure** with App Router\n2. **Dark theme** with purple accent (#6c5ce7)\n3. **Sidebar navigation** with all sections\n4. **Dashboard** with stats and activity\n5. **Full chat interface**\n6. And more pages...\n\nLet me start building this!",
+    content:
+      "I'll help you build a complete Telegram WebApp dashboard! Let me create the project structure with Next.js, Tailwind CSS, and all the necessary components.\n\nHere's what I'll set up:\n\n1. **Project structure** with App Router\n2. **Dark theme** with purple accent (#6c5ce7)\n3. **Sidebar navigation** with all sections\n4. **Dashboard** with stats and activity\n5. **Full chat interface**\n6. And more pages...\n\nLet me start building this!",
     timestamp: "10:31 AM",
   },
   {
@@ -38,7 +52,8 @@ const initialMessages: Message[] = [
   {
     id: 4,
     role: "assistant",
-    content: "Absolutely! I'll add a comprehensive services page with:\n\n- Service cards grid layout\n- Status indicators (connected/disconnected)\n- Quick action buttons\n- Verification timestamps\n\n```typescript\nconst services = [\n  { name: 'Gmail', status: 'connected', icon: '📧' },\n  { name: 'GitHub', status: 'connected', icon: '🐙' },\n  { name: 'Railway', status: 'connected', icon: '🚂' },\n];\n```\n\nThe page will be fully functional with mock data and smooth interactions!",
+    content:
+      "Absolutely! I'll add a comprehensive services page with:\n\n- Service cards grid layout\n- Status indicators (connected/disconnected)\n- Quick action buttons\n- Verification timestamps\n\n```typescript\nconst services = [\n  { name: 'Gmail', status: 'connected', icon: '📧' },\n  { name: 'GitHub', status: 'connected', icon: '🐙' },\n  { name: 'Railway', status: 'connected', icon: '🚂' },\n];\n```\n\nThe page will be fully functional with mock data and smooth interactions!",
     timestamp: "10:33 AM",
   },
 ];
@@ -66,7 +81,10 @@ export default function ChatPage() {
       id: Date.now(),
       role: "user",
       content: input,
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -81,8 +99,12 @@ export default function ChatPage() {
       const assistantMsg: Message = {
         id: Date.now() + 1,
         role: "assistant",
-        content: "I've processed your request. The changes have been applied successfully. Here's a summary of what was done:\n\n- Updated the configuration file\n- Ran the necessary checks\n- Deployed the changes\n\nEverything looks good! Let me know if you need anything else.",
-        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        content:
+          "I've processed your request. The changes have been applied successfully. Here's a summary of what was done:\n\n- Updated the configuration file\n- Ran the necessary checks\n- Deployed the changes\n\nEverything looks good! Let me know if you need anything else.",
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
       };
 
       setMessages((prev) => [...prev, assistantMsg]);
@@ -93,146 +115,152 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col h-[calc(100vh-2rem)] md:h-[calc(100vh-4rem)] -m-4 md:-m-8 overflow-hidden">
       {/* Session Header */}
-      <div className="bg-[#12121a] border-b border-[#1e1e2e] px-4 py-3 flex items-center gap-4 flex-shrink-0">
-        <div className="relative">
-          <select
-            value={selectedSession}
-            onChange={(e) => setSelectedSession(e.target.value)}
-            className="bg-[#0a0a0f] border border-[#1e1e2e] text-[#e4e4e7] text-sm rounded-lg px-3 py-2 pr-8 appearance-none cursor-pointer hover:border-[#6c5ce7] transition-colors focus:outline-none focus:border-[#6c5ce7]"
-          >
+      <div className="bg-card border-b border-border px-4 py-3 flex items-center gap-4 flex-shrink-0">
+        <Select value={selectedSession} onValueChange={(v) => { if (v !== null) setSelectedSession(v) }}>
+          <SelectTrigger className="w-[220px]">
+            <SelectValue placeholder="Select session" />
+          </SelectTrigger>
+          <SelectContent>
             {sessions.map((s) => (
-              <option key={s.id} value={s.id}>
+              <SelectItem key={s.id} value={s.id}>
                 {s.name}
-              </option>
+              </SelectItem>
             ))}
-          </select>
-          <svg className="w-4 h-4 text-[#71717a] absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-[#71717a]">
-          <div className="w-2 h-2 rounded-full bg-[#22c55e]" title="Online" />
+          </SelectContent>
+        </Select>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <div className="w-2 h-2 rounded-full bg-green-500" title="Online" />
           Mimo-hermes
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-4 min-h-0">
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-          >
+      <ScrollArea className="flex-1 min-h-0">
+        <div className="p-4 space-y-4">
+          {messages.map((msg) => (
             <div
-              className={`max-w-[80%] md:max-w-[70%] rounded-2xl px-4 py-3 overflow-hidden ${
-                msg.role === "user"
-                  ? "bg-[#6c5ce7] text-white rounded-br-md"
-                  : "bg-[#12121a] border border-[#1e1e2e] text-[#e4e4e7] rounded-bl-md"
-              }`}
+              key={msg.id}
+              className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
             >
-              {msg.role === "assistant" ? (
-                <div className="text-sm whitespace-pre-wrap">
-                  {msg.content.split("```").map((part, i) => {
-                    if (i % 2 === 1) {
+              <div
+                className={`max-w-[80%] md:max-w-[70%] rounded-2xl px-4 py-3 overflow-hidden ${
+                  msg.role === "user"
+                    ? "bg-primary text-white rounded-br-md"
+                    : "bg-card border border-border text-foreground rounded-bl-md"
+                }`}
+              >
+                {msg.role === "assistant" ? (
+                  <div className="text-sm whitespace-pre-wrap">
+                    {msg.content.split("```").map((part, i) => {
+                      if (i % 2 === 1) {
+                        return (
+                          <pre
+                            key={i}
+                            className="bg-background rounded-lg p-3 my-2 overflow-x-auto max-w-full"
+                          >
+                            <code className="text-xs text-foreground break-words whitespace-pre-wrap">
+                              {part}
+                            </code>
+                          </pre>
+                        );
+                      }
                       return (
-                        <pre key={i} className="bg-[#0a0a0f] rounded-lg p-3 my-2 overflow-x-auto max-w-full">
-                          <code className="text-xs text-[#e4e4e7] break-words whitespace-pre-wrap">{part}</code>
-                        </pre>
+                        <span key={i}>
+                          {part.split("\n").map((line, j) => {
+                            if (line.startsWith("- ")) {
+                              return (
+                                <div key={j} className="flex gap-2 my-0.5">
+                                  <span className="text-primary">•</span>
+                                  <span>{line.slice(2)}</span>
+                                </div>
+                              );
+                            }
+                            if (line.match(/^\d+\./)) {
+                              return (
+                                <div key={j} className="my-0.5">
+                                  <span className="text-primary font-semibold">
+                                    {line.match(/^\d+\./)?.[0]}{" "}
+                                  </span>
+                                  <span>{line.replace(/^\d+\.\s*/, "")}</span>
+                                </div>
+                              );
+                            }
+                            return (
+                              <span key={j}>
+                                {line.replace(/\*\*(.*?)\*\*/g, (_, text) => text)}
+                                {j < part.split("\n").length - 1 && "\n"}
+                              </span>
+                            );
+                          })}
+                        </span>
                       );
-                    }
-                    return (
-                      <span key={i}>
-                        {part.split("\n").map((line, j) => {
-                          if (line.startsWith("- ")) {
-                            return (
-                              <div key={j} className="flex gap-2 my-0.5">
-                                <span className="text-[#6c5ce7]">•</span>
-                                <span>{line.slice(2)}</span>
-                              </div>
-                            );
-                          }
-                          if (line.match(/^\d+\./)) {
-                            return (
-                              <div key={j} className="my-0.5">
-                                <span className="text-[#6c5ce7] font-semibold">{line.match(/^\d+\./)?.[0]} </span>
-                                <span>{line.replace(/^\d+\.\s*/, "")}</span>
-                              </div>
-                            );
-                          }
-                          return (
-                            <span key={j}>
-                              {line.replace(/\*\*(.*?)\*\*/g, (_, text) => text)}
-                              {j < part.split("\n").length - 1 && "\n"}
-                            </span>
-                          );
-                        })}
-                      </span>
-                    );
-                  })}
-                </div>
-              ) : (
-                <p className="text-sm">{msg.content}</p>
-              )}
-              <p className={`text-xs mt-2 ${msg.role === "user" ? "text-white/60" : "text-[#71717a]"}`}>
-                {msg.timestamp}
-              </p>
-            </div>
-          </div>
-        ))}
-
-        {/* Tool call indicator */}
-        {toolRunning && (
-          <div className="flex justify-start">
-            <div className="bg-[#12121a] border border-[#1e1e2e] rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-3">
-              <div className="w-4 h-4 border-2 border-[#6c5ce7] border-t-transparent rounded-full spin-slow" />
-              <span className="text-sm text-[#71717a]">{toolRunning}</span>
-            </div>
-          </div>
-        )}
-
-        {/* Typing indicator */}
-        {isTyping && (
-          <div className="flex justify-start">
-            <div className="bg-[#12121a] border border-[#1e1e2e] rounded-2xl rounded-bl-md px-4 py-3">
-              <div className="flex gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-[#6c5ce7] pulse-soft" />
-                <div className="w-2 h-2 rounded-full bg-[#6c5ce7] pulse-soft" style={{ animationDelay: "0.2s" }} />
-                <div className="w-2 h-2 rounded-full bg-[#6c5ce7] pulse-soft" style={{ animationDelay: "0.4s" }} />
+                    })}
+                  </div>
+                ) : (
+                  <p className="text-sm">{msg.content}</p>
+                )}
+                <p
+                  className={`text-xs mt-2 ${
+                    msg.role === "user" ? "text-white/60" : "text-muted-foreground"
+                  }`}
+                >
+                  {msg.timestamp}
+                </p>
               </div>
             </div>
-          </div>
-        )}
+          ))}
 
-        <div ref={messagesEndRef} />
-      </div>
+          {/* Tool call indicator */}
+          {toolRunning && (
+            <div className="flex justify-start">
+              <div className="bg-card border border-border rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-3">
+                <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                <span className="text-sm text-muted-foreground">{toolRunning}</span>
+              </div>
+            </div>
+          )}
+
+          {/* Typing indicator */}
+          {isTyping && (
+            <div className="flex justify-start">
+              <div className="bg-card border border-border rounded-2xl rounded-bl-md px-4 py-3">
+                <div className="flex gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" style={{ animationDelay: "0.2s" }} />
+                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" style={{ animationDelay: "0.4s" }} />
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+      </ScrollArea>
 
       {/* Input Bar */}
-      <div className="bg-[#12121a] border-t border-[#1e1e2e] px-4 py-3 flex-shrink-0">
+      <div className="bg-card border-t border-border px-4 py-3 flex-shrink-0">
         <div className="flex items-center gap-3">
-          <button className="p-2 text-[#71717a] hover:text-[#e4e4e7] transition-colors rounded-lg hover:bg-[#1a1a25]">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-            </svg>
-          </button>
+          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+            <Paperclip className="h-5 w-5" />
+          </Button>
           <div className="flex-1 relative">
-            <input
+            <Input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               placeholder="Type a message..."
-              className="w-full bg-[#0a0a0f] border border-[#1e1e2e] rounded-xl px-4 py-2.5 text-sm text-[#e4e4e7] placeholder-[#71717a] focus:outline-none focus:border-[#6c5ce7] transition-colors"
+              className="pr-10"
             />
           </div>
-          <button
+          <Button
             onClick={handleSend}
             disabled={!input.trim()}
-            className="p-2.5 bg-[#6c5ce7] hover:bg-[#7c6cf7] disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl transition-colors"
+            size="icon"
+            className="rounded-xl"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-            </svg>
-          </button>
+            <ArrowUp className="h-5 w-5" />
+          </Button>
         </div>
       </div>
     </div>

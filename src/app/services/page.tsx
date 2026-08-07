@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, GitBranch, Train, Calendar, FileText, Bot } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Mail, GitBranch, Train, Calendar, FileText, Bot, CheckCircle, RefreshCw, Unplug } from "lucide-react";
 import type { ReactNode } from "react";
 
 interface Service {
@@ -54,81 +57,77 @@ export default function ServicesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#e4e4e7]">Services</h1>
-        <p className="text-[#71717a] mt-1">Manage connected services and integrations</p>
+        <h1 className="text-2xl font-bold text-foreground">Services</h1>
+        <p className="text-muted-foreground mt-1">Manage connected services and integrations</p>
       </div>
 
       {/* Stats row */}
       <div className="flex gap-4">
-        <div className="bg-[#12121a] border border-[#1e1e2e] rounded-xl px-4 py-3">
-          <p className="text-sm text-[#71717a]">Connected</p>
-          <p className="text-xl font-bold text-[#22c55e]">
-            {services.filter((s) => s.status === "connected").length}
-          </p>
-        </div>
-        <div className="bg-[#12121a] border border-[#1e1e2e] rounded-xl px-4 py-3">
-          <p className="text-sm text-[#71717a]">Disconnected</p>
-          <p className="text-xl font-bold text-[#ef4444]">
-            {services.filter((s) => s.status === "disconnected").length}
-          </p>
-        </div>
+        <Card className="px-4 py-3">
+          <CardContent className="p-0">
+            <p className="text-sm text-muted-foreground">Connected</p>
+            <p className="text-xl font-bold text-green-500">
+              {services.filter((s) => s.status === "connected").length}
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="px-4 py-3">
+          <CardContent className="p-0">
+            <p className="text-sm text-muted-foreground">Disconnected</p>
+            <p className="text-xl font-bold text-red-500">
+              {services.filter((s) => s.status === "disconnected").length}
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Services Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {services.map((service) => (
-          <div
-            key={service.id}
-            className="bg-[#12121a] border border-[#1e1e2e] rounded-xl p-5 hover:bg-[#1a1a25] transition-all duration-200"
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <span className="text-[#e4e4e7]">{service.icon}</span>
-                <div>
-                  <h3 className="font-semibold text-[#e4e4e7]">{service.name}</h3>
-                  <p className="text-xs text-[#71717a] mt-0.5">
-                    Last verified: {service.lastVerified}
-                  </p>
+          <Card key={service.id} className="hover:bg-accent/50 transition-all duration-200">
+            <CardContent className="p-5">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-foreground">{service.icon}</span>
+                  <div>
+                    <h3 className="font-semibold text-foreground">{service.name}</h3>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Last verified: {service.lastVerified}
+                    </p>
+                  </div>
                 </div>
+                <Badge variant={service.status === "connected" ? "default" : "destructive"}>
+                  {service.status === "connected" ? "Connected" : "Disconnected"}
+                </Badge>
               </div>
-              <span
-                className={`px-2.5 py-1 rounded-full text-xs font-medium ${
-                  service.status === "connected"
-                    ? "bg-[#22c55e]/10 text-[#22c55e]"
-                    : "bg-[#ef4444]/10 text-[#ef4444]"
-                }`}
-              >
-                {service.status === "connected" ? "Connected" : "Disconnected"}
-              </span>
-            </div>
 
-            <div className="flex gap-2 mt-4">
-              <button
-                onClick={() => handleVerify(service.id)}
-                disabled={verifying === service.id}
-                className="px-3 py-1.5 text-xs font-medium bg-[#0a0a0f] border border-[#1e1e2e] rounded-lg text-[#e4e4e7] hover:border-[#6c5ce7] transition-colors disabled:opacity-50 flex items-center gap-1.5"
-              >
-                {verifying === service.id ? (
-                  <div className="w-3 h-3 border border-[#6c5ce7] border-t-transparent rounded-full spin-slow" />
-                ) : (
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
-                Verify
-              </button>
-              <button
-                onClick={() => handleToggle(service.id)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                  service.status === "connected"
-                    ? "bg-[#ef4444]/10 text-[#ef4444] hover:bg-[#ef4444]/20"
-                    : "bg-[#22c55e]/10 text-[#22c55e] hover:bg-[#22c55e]/20"
-                }`}
-              >
-                {service.status === "connected" ? "Disconnect" : "Reconnect"}
-              </button>
-            </div>
-          </div>
+              <div className="flex gap-2 mt-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleVerify(service.id)}
+                  disabled={verifying === service.id}
+                  className="gap-1.5"
+                >
+                  {verifying === service.id ? (
+                    <RefreshCw className="h-3 w-3 animate-spin" />
+                  ) : (
+                    <CheckCircle className="h-3 w-3" />
+                  )}
+                  Verify
+                </Button>
+                <Button
+                  variant={service.status === "connected" ? "destructive" : "default"}
+                  size="sm"
+                  onClick={() => handleToggle(service.id)}
+                  className="gap-1.5"
+                >
+                  <Unplug className="h-3 w-3" />
+                  {service.status === "connected" ? "Disconnect" : "Reconnect"}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>

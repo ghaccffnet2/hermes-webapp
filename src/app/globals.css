@@ -1,18 +1,36 @@
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-  --color-bg: #0a0a0f;
+@theme inline {
+  --color-background: #0a0a0f;
+  --color-foreground: #e4e4e7;
   --color-card: #12121a;
-  --color-card-hover: #1a1a25;
-  --color-border: #1e1e2e;
-  --color-text-primary: #e4e4e7;
-  --color-text-secondary: #71717a;
+  --color-card-foreground: #e4e4e7;
+  --color-primary: #6c5ce7;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #1e1e2e;
+  --color-secondary-foreground: #e4e4e7;
+  --color-muted: #1e1e2e;
+  --color-muted-foreground: #71717a;
   --color-accent: #6c5ce7;
-  --color-accent-hover: #7c6cf7;
-  --color-success: #22c55e;
-  --color-error: #ef4444;
-  --color-warning: #f59e0b;
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #1e1e2e;
+  --color-input: #1e1e2e;
+  --color-ring: #6c5ce7;
+  --color-sidebar-background: #0a0a0f;
+  --color-sidebar-foreground: #e4e4e7;
+  --color-sidebar-primary: #6c5ce7;
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: #12121a;
+  --color-sidebar-accent-foreground: #e4e4e7;
+  --color-sidebar-border: #1e1e2e;
+  --color-sidebar-ring: #6c5ce7;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
 }
 
 * {
