@@ -1,22 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import { Mail, GitBranch, Train, Calendar, FileText, Bot } from "lucide-react";
+import type { ReactNode } from "react";
 
 interface Service {
   id: string;
   name: string;
-  icon: string;
+  icon: ReactNode;
   status: "connected" | "disconnected";
   lastVerified: string;
 }
 
 const initialServices: Service[] = [
-  { id: "gmail", name: "Gmail", icon: "📧", status: "connected", lastVerified: "2h ago" },
-  { id: "github", name: "GitHub", icon: "🐙", status: "connected", lastVerified: "30m ago" },
-  { id: "railway", name: "Railway", icon: "🚂", status: "connected", lastVerified: "5m ago" },
-  { id: "calendar", name: "Google Calendar", icon: "📅", status: "disconnected", lastVerified: "2d ago" },
-  { id: "obsidian", name: "Obsidian", icon: "📝", status: "connected", lastVerified: "1h ago" },
-  { id: "userbot", name: "Telegram Userbot", icon: "🤖", status: "connected", lastVerified: "15m ago" },
+  { id: "gmail", name: "Gmail", icon: <Mail size={24} />, status: "connected", lastVerified: "2h ago" },
+  { id: "github", name: "GitHub", icon: <GitBranch size={24} />, status: "connected", lastVerified: "30m ago" },
+  { id: "railway", name: "Railway", icon: <Train size={24} />, status: "connected", lastVerified: "5m ago" },
+  { id: "calendar", name: "Google Calendar", icon: <Calendar size={24} />, status: "disconnected", lastVerified: "2d ago" },
+  { id: "obsidian", name: "Obsidian", icon: <FileText size={24} />, status: "connected", lastVerified: "1h ago" },
+  { id: "userbot", name: "Telegram Userbot", icon: <Bot size={24} />, status: "connected", lastVerified: "15m ago" },
 ];
 
 export default function ServicesPage() {
@@ -81,7 +83,7 @@ export default function ServicesPage() {
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <span className="text-3xl">{service.icon}</span>
+                <span className="text-[#e4e4e7]">{service.icon}</span>
                 <div>
                   <h3 className="font-semibold text-[#e4e4e7]">{service.name}</h3>
                   <p className="text-xs text-[#71717a] mt-0.5">

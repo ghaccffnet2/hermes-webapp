@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Send, Gamepad2, Terminal } from "lucide-react";
+import type { ReactNode } from "react";
 
 interface Session {
   id: string;
@@ -66,10 +68,10 @@ const sessions: Session[] = [
   },
 ];
 
-const platformIcons: Record<string, { icon: string; color: string }> = {
-  telegram: { icon: "✈️", color: "#6c5ce7" },
-  discord: { icon: "🎮", color: "#5865F2" },
-  cli: { icon: "💻", color: "#22c55e" },
+const platformIcons: Record<string, { icon: ReactNode; color: string }> = {
+  telegram: { icon: <Send size={18} />, color: "#6c5ce7" },
+  discord: { icon: <Gamepad2 size={18} />, color: "#5865F2" },
+  cli: { icon: <Terminal size={18} />, color: "#22c55e" },
 };
 
 export default function SessionsPage() {
@@ -117,7 +119,7 @@ export default function SessionsPage() {
                   : "bg-[#12121a] border border-[#1e1e2e] text-[#71717a] hover:text-[#e4e4e7]"
               }`}
             >
-              {p === "all" ? "All" : platformIcons[p]?.icon + " " + p}
+              {p === "all" ? "All" : <><span style={{ color: platformIcons[p]?.color }}>{platformIcons[p]?.icon}</span> {p}</>}
             </button>
           ))}
         </div>
@@ -136,7 +138,7 @@ export default function SessionsPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-              <span className="text-lg">{platformIcons[selected.platform]?.icon}</span>
+              <span style={{ color: platformIcons[selected.platform]?.color }}>{platformIcons[selected.platform]?.icon}</span>
               <h3 className="font-semibold text-[#e4e4e7]">{selected.title}</h3>
               <span className="text-xs text-[#71717a]">{selected.messageCount} messages</span>
             </div>
@@ -176,7 +178,7 @@ export default function SessionsPage() {
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-xl">{platform?.icon}</span>
+                    <span style={{ color: platform?.color }}>{platform?.icon}</span>
                     <h3 className="font-semibold text-[#e4e4e7] text-sm">{session.title}</h3>
                   </div>
                   <span className="text-xs text-[#71717a]">{session.timestamp}</span>

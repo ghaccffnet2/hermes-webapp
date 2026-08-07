@@ -57,7 +57,7 @@ export default function UsersPage() {
         </div>
         <button
           onClick={() => setShowAdd(!showAdd)}
-          className="px-4 py-2 bg-[#6c5ce7] hover:bg-[#7c6cf7] text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-[#6c5ce7] hover:bg-[#7c6cf7] text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 whitespace-nowrap"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -131,14 +131,12 @@ export default function UsersPage() {
         </div>
         <button
           onClick={() => setIsPublic(!isPublic)}
-          className={`w-12 h-6 rounded-full transition-colors relative ${
-            isPublic ? "bg-[#22c55e]" : "bg-[#71717a]"
-          }`}
+          className="w-12 h-6 rounded-full transition-colors relative"
+          style={{ backgroundColor: isPublic ? "#22c55e" : "#374151" }}
         >
           <div
-            className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${
-              isPublic ? "translate-x-6" : "translate-x-0.5"
-            }`}
+            className="w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform"
+            style={{ transform: isPublic ? "translateX(22px)" : "translateX(2px)" }}
           />
         </button>
       </div>
@@ -186,11 +184,11 @@ export default function UsersPage() {
             </div>
             <div>
               <span className="flex items-center gap-1.5 text-sm">
-                <span
-                  className={`w-2 h-2 rounded-full ${
-                    user.status === "active" ? "bg-[#22c55e]" : "bg-[#ef4444]"
-                  }`}
-                />
+                {user.status === "active" ? (
+                  <svg className="w-3.5 h-3.5 text-[#22c55e]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6" /></svg>
+                ) : (
+                  <svg className="w-3.5 h-3.5 text-[#ef4444]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6" /></svg>
+                )}
                 <span className={user.status === "active" ? "text-[#22c55e]" : "text-[#ef4444]"}>
                   {user.status}
                 </span>

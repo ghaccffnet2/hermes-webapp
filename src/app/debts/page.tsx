@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowDownLeft, ArrowUpRight, TrendingUp } from "lucide-react";
 
 interface DebtEntry {
   id: string;
@@ -175,15 +176,24 @@ export default function DebtsPage() {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-[#12121a] border border-[#1e1e2e] rounded-xl p-5">
-          <p className="text-sm text-[#71717a]">Total Owed to Me</p>
+          <div className="flex items-center gap-2 mb-1">
+            <ArrowUpRight size={16} className="text-[#22c55e]" />
+            <p className="text-sm text-[#71717a]">Total Owed to Me</p>
+          </div>
           <p className="text-2xl font-bold text-[#22c55e] mt-1">${totalLent.toLocaleString()}</p>
         </div>
         <div className="bg-[#12121a] border border-[#1e1e2e] rounded-xl p-5">
-          <p className="text-sm text-[#71717a]">Total I Owe</p>
+          <div className="flex items-center gap-2 mb-1">
+            <ArrowDownLeft size={16} className="text-[#ef4444]" />
+            <p className="text-sm text-[#71717a]">Total I Owe</p>
+          </div>
           <p className="text-2xl font-bold text-[#ef4444] mt-1">${totalOwed.toLocaleString()}</p>
         </div>
         <div className="bg-[#12121a] border border-[#1e1e2e] rounded-xl p-5">
-          <p className="text-sm text-[#71717a]">Net Balance</p>
+          <div className="flex items-center gap-2 mb-1">
+            <TrendingUp size={16} className={netBalance >= 0 ? "text-[#22c55e]" : "text-[#ef4444]"} />
+            <p className="text-sm text-[#71717a]">Net Balance</p>
+          </div>
           <p className={`text-2xl font-bold mt-1 ${netBalance >= 0 ? "text-[#22c55e]" : "text-[#ef4444]"}`}>
             {netBalance >= 0 ? "+" : ""}${netBalance.toLocaleString()}
           </p>

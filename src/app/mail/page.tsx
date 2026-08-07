@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Inbox, Mail, Star, Circle } from "lucide-react";
 
 interface Email {
   id: string;
@@ -80,7 +81,7 @@ export default function MailPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 overflow-x-hidden">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#e4e4e7]">Mail</h1>
@@ -112,17 +113,22 @@ export default function MailPage() {
           />
         </div>
         <div className="flex gap-2">
-          {(["all", "unread", "starred"] as const).map((f) => (
+          {([
+            { key: "all" as const, icon: <Inbox size={14} /> },
+            { key: "unread" as const, icon: <Mail size={14} /> },
+            { key: "starred" as const, icon: <Star size={14} /> },
+          ]).map((f) => (
             <button
-              key={f}
-              onClick={() => setFilter(f)}
+              key={f.key}
+              onClick={() => setFilter(f.key)}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors capitalize ${
-                filter === f
+                filter === f.key
                   ? "bg-[#6c5ce7]/10 text-[#6c5ce7] border border-[#6c5ce7]/30"
                   : "bg-[#12121a] border border-[#1e1e2e] text-[#71717a] hover:text-[#e4e4e7]"
-              }`}
+              } flex items-center gap-1.5`}
             >
-              {f}
+              {f.icon}
+              {f.key}
             </button>
           ))}
         </div>
@@ -152,7 +158,7 @@ export default function MailPage() {
                   </span>
                   <span className="text-xs text-[#71717a]">{email.date}</span>
                   {email.unread && (
-                    <div className="w-2 h-2 rounded-full bg-[#6c5ce7] flex-shrink-0" />
+                    <Circle size={8} className="fill-[#6c5ce7] text-[#6c5ce7] flex-shrink-0" />
                   )}
                 </div>
                 <p className={`text-sm ${email.unread ? "text-[#e4e4e7] font-medium" : "text-[#71717a]"} truncate`}>

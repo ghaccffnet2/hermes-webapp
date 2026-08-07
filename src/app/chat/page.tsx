@@ -91,7 +91,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] -m-4 md:-m-8">
+    <div className="flex flex-col h-[calc(100vh-4rem)] -m-4 md:-m-8 overflow-hidden">
       {/* Session Header */}
       <div className="bg-[#12121a] border-b border-[#1e1e2e] px-4 py-3 flex items-center gap-4">
         <div className="relative">
@@ -111,7 +111,7 @@ export default function ChatPage() {
           </svg>
         </div>
         <div className="flex items-center gap-2 text-xs text-[#71717a]">
-          <div className="w-2 h-2 rounded-full bg-[#22c55e]" />
+          <div className="w-2 h-2 rounded-full bg-[#22c55e]" title="Online" />
           Mimo-hermes
         </div>
       </div>

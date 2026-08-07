@@ -93,7 +93,7 @@ export default function CronPage() {
         </div>
         <button
           onClick={() => setShowCreate(!showCreate)}
-          className="px-4 py-2 bg-[#6c5ce7] hover:bg-[#7c6cf7] text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-[#6c5ce7] hover:bg-[#7c6cf7] text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 whitespace-nowrap"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -209,11 +209,11 @@ export default function CronPage() {
             <div className="text-sm text-[#71717a]">{job.nextRun}</div>
             <div>
               <span className="flex items-center gap-1.5 text-sm">
-                <span
-                  className={`w-2 h-2 rounded-full ${
-                    job.status === "running" ? "bg-[#22c55e]" : "bg-[#71717a]"
-                  }`}
-                />
+                {job.status === "running" ? (
+                  <svg className="w-3.5 h-3.5 text-[#22c55e]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6" /></svg>
+                ) : (
+                  <svg className="w-3.5 h-3.5 text-[#71717a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="6" /></svg>
+                )}
                 <span className={job.status === "running" ? "text-[#22c55e]" : "text-[#71717a]"}>
                   {job.status === "running" ? "Running" : "Paused"}
                 </span>

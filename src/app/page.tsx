@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { MessageSquare, Clock, BarChart3, Activity, CheckCircle2, MessageCircle, AlertTriangle } from "lucide-react";
 
 const stats = [
-  { label: "Active Sessions", value: "3", icon: "💬", color: "#6c5ce7" },
-  { label: "Cron Jobs", value: "2 active", icon: "⏰", color: "#22c55e" },
-  { label: "API Calls Today", value: "147", icon: "📊", color: "#f59e0b" },
-  { label: "Uptime", value: "99.8%", icon: "🟢", color: "#22c55e" },
+  { label: "Active Sessions", value: "3", icon: <MessageSquare size={24} />, color: "#6c5ce7" },
+  { label: "Cron Jobs", value: "2 active", icon: <Clock size={24} />, color: "#22c55e" },
+  { label: "API Calls Today", value: "147", icon: <BarChart3 size={24} />, color: "#f59e0b" },
+  { label: "Uptime", value: "99.8%", icon: <Activity size={24} />, color: "#22c55e" },
 ];
 
 const activity = [
@@ -17,10 +18,10 @@ const activity = [
   { text: "Backup created: hermes-backup-2026-08-07.tar.gz", time: "12 hours ago", type: "success" },
 ];
 
-const activityColors: Record<string, string> = {
-  success: "#22c55e",
-  info: "#6c5ce7",
-  warning: "#f59e0b",
+const activityIcons: Record<string, React.ReactNode> = {
+  success: <CheckCircle2 size={14} className="text-[#22c55e]" />,
+  info: <MessageCircle size={14} className="text-[#6c5ce7]" />,
+  warning: <AlertTriangle size={14} className="text-[#f59e0b]" />,
 };
 
 export default function DashboardPage() {
@@ -47,7 +48,7 @@ export default function DashboardPage() {
             className="bg-[#12121a] border border-[#1e1e2e] rounded-xl p-5 hover:bg-[#1a1a25] transition-all duration-200 group"
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-2xl">{stat.icon}</span>
+              <span className="text-[#e4e4e7]">{stat.icon}</span>
               <div
                 className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                 style={{ backgroundColor: stat.color }}
@@ -70,10 +71,7 @@ export default function DashboardPage() {
               key={i}
               className="px-6 py-4 flex items-center gap-4 hover:bg-[#1a1a25] transition-colors"
             >
-              <div
-                className="w-2 h-2 rounded-full flex-shrink-0"
-                style={{ backgroundColor: activityColors[item.type] }}
-              />
+              <span className="flex-shrink-0">{activityIcons[item.type]}</span>
               <p className="flex-1 text-sm text-[#e4e4e7]">{item.text}</p>
               <span className="text-xs text-[#71717a] whitespace-nowrap">{item.time}</span>
             </div>

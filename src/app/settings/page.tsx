@@ -21,14 +21,11 @@ function Toggle({
       </div>
       <button
         onClick={onChange}
-        className={`w-11 h-6 rounded-full transition-colors relative ${
-          enabled ? "bg-[#6c5ce7]" : "bg-[#71717a]"
-        }`}
+        className="w-11 h-6 rounded-full transition-colors relative"
+        style={{ backgroundColor: enabled ? "#6c5ce7" : "#374151" }}
       >
         <div
-          className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${
-            enabled ? "translate-x-5.5" : "translate-x-0.5"
-          }`}
+          className="w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform"
           style={{ transform: enabled ? "translateX(22px)" : "translateX(2px)" }}
         />
       </button>
@@ -283,7 +280,11 @@ export default function SettingsPage() {
               <p className="text-xs text-[#71717a] mt-0.5">Current gateway health</p>
             </div>
             <span className={`flex items-center gap-2 text-sm ${gatewayRunning ? "text-[#22c55e]" : "text-[#ef4444]"}`}>
-              <span className={`w-2 h-2 rounded-full ${gatewayRunning ? "bg-[#22c55e]" : "bg-[#ef4444]"}`} />
+              {gatewayRunning ? (
+                <svg className="w-3.5 h-3.5 text-[#22c55e]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6" /></svg>
+              ) : (
+                <svg className="w-3.5 h-3.5 text-[#ef4444]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6" /></svg>
+              )}
               {gatewayRunning ? "Healthy" : "Down"}
             </span>
           </div>
