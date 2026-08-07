@@ -105,8 +105,8 @@ export default function MailPage() {
   };
 
   return (
-    <div className="space-y-6 overflow-x-hidden">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 overflow-x-hidden max-w-full">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Mail</h1>
           <p className="text-muted-foreground mt-1">Check your email inbox</p>
@@ -161,8 +161,8 @@ export default function MailPage() {
       </div>
 
       {/* Search and Filter */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="flex-1 relative">
+      <div className="flex flex-col sm:flex-row gap-3 overflow-hidden">
+        <div className="flex-1 min-w-0 relative">
           <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
           <Input
             type="text"
@@ -172,7 +172,7 @@ export default function MailPage() {
             className="pl-10"
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-shrink-0">
           {([
             { key: "all" as const, icon: <Inbox size={14} />, label: "All" },
             { key: "unread" as const, icon: <Mail size={14} />, label: "Unread" },
